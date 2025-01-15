@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 
 const CreateUsers = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate()
   const registerUser = async (userData) => {
     const data = await axios.post(`${import.meta.env.VITE_BURL}/users`, userData)
@@ -14,16 +14,25 @@ const CreateUsers = () => {
   return (
     <form onSubmit={handleSubmit(registerUser)}>
       <div className="form-floating mb-3">
-        <input type="text" className="form-control" id="userName" {...register('userName')} />
+        <input type="text" className={`form-control ${errors.userName ? 'Invalid' : ''}`} id="userName" {...register('userName', { required: 'User Name is required!', maxLength: 20 })} />
         <label htmlFor="userName">User Name</label>
+        {errors.userName && (
+          <span className="errorMessage">{errors.userName.message}</span>
+        )}
       </div>
       <div className="form-floating mb-3">
-        <input type="email" className="form-control" id="email" {...register('email')} />
+        <input type="email" className={`form-control ${errors.email ? 'Invalid' : ''}`} id="email" {...register('email', { required: 'User Email is required!' })} />
         <label htmlFor="email">Email address</label>
+        {errors.email && (
+          <span className="errorMessage">{errors.email.message}</span>
+        )}
       </div>
       <div className="form-floating mb-3">
-        <input type="password" className="form-control" id="Password" placeholder="Password" {...register('password')} />
+        <input type="password" className={`form-control ${errors.password ? 'Invalid' : ''}`} id="Password" {...register('password', { required: 'Password is required', min: 4 })} />
         <label htmlFor="Password">Password</label>
+        {errors.password && (
+          <span className="errorMessage">{errors.password.message}</span>
+        )}
       </div>
       <div className="form-floating mb-3">
         <input type="text" className="form-control" id="phone" {...register('phone')} />

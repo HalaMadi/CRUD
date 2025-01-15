@@ -1,0 +1,13 @@
+.errorMessage{
+    color: red;
+    font-size: 12px ;
+    margin:4 ;
+}
+.Invalid{
+    border: 1px solid red !important;
+}
+.Invalid:focus{
+    outline: none;
+    border-color: rgb(255, 255, 255); 
+    box-shadow: 0 0 0 0px rgba(0, 123, 255, 0.25);
+}
